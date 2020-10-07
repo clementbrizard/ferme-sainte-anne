@@ -16,40 +16,6 @@ const deliveries = [
 ];
 
 export default function Deliveries () {
-  const deliveriesReadingState = deliveries.reduce((acc, cur) => ({...acc, [cur.id]: false}), {});
-  const [readingStates, setReadingStates] = useState(deliveriesReadingState);
-
-  const setReadingState = (id) => {
-    console.log('hello');
-    setReadingStates(Object.assign({...readingStates}, { [id]: !readingStates[id] }));
-  };
-
-  const ShortText = (props) => {
-    return (
-      <View>
-        <Text style={styles.paragraph} numberOfLines = {3}>
-        {props.text}
-        </Text>
-        <TouchableOpacity style={styles.button} onPress={() => { setReadingState(props.id) }}>
-          <Text>Voir plus</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-  
-  const FullText = (props) => {
-    return (
-      <View>
-        <Text style={styles.paragraph}>
-        {props.text}
-        </Text>
-        <TouchableOpacity style={styles.button} onPress={() => { setReadingState(props.id) }}>
-          <Text>Voir moins</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <FlatList
@@ -60,11 +26,9 @@ export default function Deliveries () {
           <Card>
             <Card.Title>{item.date}</Card.Title>
             <Card.Divider />
-            {
-              readingStates[item.id]
-                ? <FullText text={item.description} id={item.id} />
-                : <ShortText text={item.description} id={item.id}/>
-            }
+            <Text numberOfLines={3} style={styles.paragraph}>
+              {item.description}
+            </Text>
           </Card>
         )}
       />
@@ -73,11 +37,6 @@ export default function Deliveries () {
 };
 
 const styles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-  },
   container: {
     flex: 1,
     alignItems: 'center',
